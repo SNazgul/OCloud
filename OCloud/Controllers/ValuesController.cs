@@ -2,26 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace OCloud.Controllers
 {
+    //[AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values
+        [Authorize]
+        [Produces("application/json")]
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public JsonResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return new JsonResult(new string[] { "value1", "value2" });
+            // ActionResult<IEnumerable<string>> 
+            // return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
             return "value";
+        }
+
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public ActionResult<string> Get(int id, int kId)
+        {
+            return $"value - {kId}";
         }
 
         // POST api/values
