@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OCloud.Entities;
+using OCloud.Exceptions;
 
 namespace OCloud
 {
@@ -65,6 +66,8 @@ namespace OCloud
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();                
+                app.UseExceptionMiddleware();
             }
             else
             {
