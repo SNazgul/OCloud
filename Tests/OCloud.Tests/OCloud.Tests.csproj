@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OCloud\OCloud.csproj" />
+    <ProjectReference Include="..\..\src\OCloud\OCloud.csproj" />
   </ItemGroup>
 
 </Project>
