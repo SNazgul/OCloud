@@ -54,8 +54,16 @@ namespace OCloud
             String connectionStr = String.Format(Configuration["database:connection"], Configuration["database:development:LocalAddress"]);
             Console.WriteLine(connectionStr);
 #endif
-            services.AddDbContext<OCloudDbContext>(options =>
-                options.UseMySQL(connectionStr));
+
+// TODO: uncomment            
+//            // Using Postgre
+//            services.AddDbContext<ApplicationDbContext>(options =>
+//options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+//            services.AddIdentity<User>()
+//                            .AddEntityFrameworkStores<ApplicationDbContext>()
+//                            .AddDefaultTokenProviders();
+            //services.AddDbContext<OCloudDbContext>(options =>
+            //    options.UseMySQL(connectionStr));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -65,16 +73,15 @@ namespace OCloud
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 //app.UseDeveloperExceptionPage();                
                 app.UseExceptionMiddleware();
             }
             else
-            {
+            {                
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
