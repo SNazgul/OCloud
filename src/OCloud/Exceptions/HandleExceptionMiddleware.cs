@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -37,16 +38,17 @@ namespace OCloud.Exceptions
                     throw;
                 }
 
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex, _logger);
             }   
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger<HandleExceptionMiddleware> logger = null)
         {
             var code = HttpStatusCode.InternalServerError;  // 500 if unexpected
             string[] descriptions = null;
 
-            if (exception is System.Security.Authentication.AuthenticationException)
+            if (exception is AuthenticationException ||
+                exception is UnauthorizedAccessException)
             {
                 code = HttpStatusCode.Unauthorized;
                 descriptions = new string[1] { exception.Message };
@@ -54,6 +56,7 @@ namespace OCloud.Exceptions
             //else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
             //else if (exception is MyException) code = HttpStatusCode.BadRequest;
 
+            //logger.LogTrace($"Enter: {nameof(Register)}");
 
             var result = JsonConvert.SerializeObject(new { Code = code, Descriptions = descriptions });
             context.Response.ContentType = "application/json";
