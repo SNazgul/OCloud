@@ -46,6 +46,8 @@ namespace OCloud.Tests
                     .UseNLog();  // NLog: setup NLog for Dependency injection;  
 
             _testServer = new TestServer(builder);
+            //_testServer.BaseAddress = new Uri("http://Nazgul-PC2/");
+            //_testServer.BaseAddress = new Uri("http://OCLOUDAPP");
             _httpClient = _testServer.CreateClient();
         }
 
@@ -60,7 +62,7 @@ namespace OCloud.Tests
         static private string GetContentRootPath()
         {
             var testProjectPath = PlatformServices.Default.Application.ApplicationBasePath;
-            var relativePathToHostProject = @"..\..\..\..\..\OCloud\";
+            var relativePathToHostProject = @"..\..\..\..\..\src\OCloud\";
             return Path.Combine(testProjectPath, relativePathToHostProject);
         }        
     }
