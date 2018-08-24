@@ -90,7 +90,8 @@ namespace OCloud.Controllers
 
             _logger.LogDebug($"CreateUser HttpContext.Connection.RemoteIpAddress = {HttpContext.Connection.RemoteIpAddress}");
             if (HttpContext.Connection.RemoteIpAddress != null)
-                return new UnauthorizedResult();
+                throw new UnauthorizedAccessException("It is forbidden to register a user from an external IP");
+
 
 
             return Ok();
