@@ -1,0 +1,37 @@
+﻿@page
+
+@using OCloud.WebView.Views
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model CreateUserModel
+@{
+    ViewData["Title"] = "Create user";
+}
+
+
+<html>
+<body>
+    <p>
+        Enter name and password for new user.
+    </p>
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div>
+            <label asp-for="LoginInfo.UserName"></label>
+            <input asp-for="LoginInfo.UserName" />
+            <span asp-validation-for="LoginInfo.UserName"></span>
+        </div>
+
+        <div>
+            <label asp-for="LoginInfo.Password"></label>
+            <input asp-for="LoginInfo.Password" />
+            <span asp-validation-for="LoginInfo.Password"></span>
+        </div>
+
+
+        <input type="submit" value="Login" />
+    </form>
+</body>
+</html>

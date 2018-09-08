@@ -1,0 +1,15 @@
+﻿@page
+
+@using OCloud.WebView.Views
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@model InitializeModel
+@{
+}
+
+<html>
+<body>
+    <p>@(Model.IsInitialized ? "Initilizing complete" : "No action: Initialized was completed before.")</p>
+</body>
+</html>
