@@ -38,7 +38,14 @@ namespace OCloud
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                 .UseStartup<Startup>()
+                 .ConfigureAppConfiguration((hostingContext, config) =>
+                 {
+                     if (hostingContext.HostingEnvironment.IsProduction())
+                     {
+                         // TODO: load private config
+                     }
+                 })
                  .ConfigureLogging(logging =>
                  {
                      logging.ClearProviders();
