@@ -55,6 +55,11 @@ namespace OCloud.Exceptions
             }
             //else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
             //else if (exception is MyException) code = HttpStatusCode.BadRequest;
+            else
+            {
+                code = HttpStatusCode.InternalServerError;
+                descriptions = new string[1] { exception.Message };
+            }
 
             //logger.LogTrace($"Enter: {nameof(Register)}");
 
