@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,15 +55,16 @@ namespace OCloud
             Console.WriteLine(connectionStr);
 #endif
 
-// TODO: uncomment            
-//            // Using Postgre
-//            services.AddDbContext<ApplicationDbContext>(options =>
-//options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-//            services.AddIdentity<User>()
-//                            .AddEntityFrameworkStores<ApplicationDbContext>()
-//                            .AddDefaultTokenProviders();
+
             //services.AddDbContext<OCloudDbContext>(options =>
             //    options.UseMySQL(connectionStr));
+            services.AddDbContext<OCloudDbContext>(options =>
+                options.UseNpgsql(connectionStr/*Configuration.GetConnectionString("DefaultConnection")*/));
+            services.AddIdentity<OCloudUser, IdentityRole>()
+                            .AddEntityFrameworkStores<OCloudDbContext>()
+                            .AddDefaultTokenProviders();
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
