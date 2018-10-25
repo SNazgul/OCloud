@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCloud", "OCloud\OCloud.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCloud.Tests", "..\Tests\OCloud.Tests\OCloud.Tests.csproj", "{CAF062D9-70E3-4D79-A924-30E356A9CE52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCloud.IntegrationTests", "..\Tests\OCloud.IntegrationTests\OCloud.IntegrationTests.csproj", "{C8CD3DA5-EC67-4E04-BCAF-7704834E5EE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CAF062D9-70E3-4D79-A924-30E356A9CE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAF062D9-70E3-4D79-A924-30E356A9CE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAF062D9-70E3-4D79-A924-30E356A9CE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8CD3DA5-EC67-4E04-BCAF-7704834E5EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CD3DA5-EC67-4E04-BCAF-7704834E5EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CD3DA5-EC67-4E04-BCAF-7704834E5EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CD3DA5-EC67-4E04-BCAF-7704834E5EE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
