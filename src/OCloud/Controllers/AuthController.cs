@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
-using System.Net;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using OCloud.Entities;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace OCloud.Controllers
 {
@@ -17,21 +20,22 @@ namespace OCloud.Controllers
     {
         private IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
+        private UserManager<OCloudUser> _userManager;
 
-
-        public AuthController(IConfiguration config, ILogger<AuthController> logger)
+        public AuthController(IConfiguration config, ILogger<AuthController> logger, UserManager<OCloudUser> userManager)
         {
             _config = config;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         [HttpPost]
         [ActionName("login")]
-        public IActionResult CreateToken([FromBody]LoginModel login)
+        public async Task<IActionResult> CreateToken([FromBody]LoginModel login)
         {
             IActionResult response = Unauthorized();
-            var user = Authenticate(login);
+            var user = await Authenticate(login);
 
             if (user != null)
             {
@@ -42,7 +46,7 @@ namespace OCloud.Controllers
             return response;
         }
 
-        private string BuildToken(UserModel user)
+        private string BuildToken(OCloudUser user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -55,14 +59,42 @@ namespace OCloud.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private UserModel Authenticate(LoginModel login)
+        private async Task<OCloudUser> Authenticate(LoginModel login)
         {
-            UserModel user = null;
+            if (string.IsNullOrEmpty(login.Username) || string.IsNullOrEmpty(login.Password))
+                return await Task.FromResult<OCloudUser>(null);
 
-            if (login.Username == "mario" && login.Password == "secret")
+            OCloudUser user = await _userManager.FindByNameAsync(login.Username);
+            bool? isPwdCorrect = null;
+            if (user != null)
             {
-                user = new UserModel { Name = "Mario Rossi", Email = "mario.rossi@domain.com" };
+                isPwdCorrect = await _userManager.CheckPasswordAsync(user, login.Password);
             }
+
+            if (!isPwdCorrect.HasValue || !isPwdCorrect.Value)
+            {
+                //bool isLocal = false;
+                //var connectionFeature = HttpContext.Features.Get<IHttpConnectionFeature>();
+                //if (connectionFeature != null)
+                //{
+                //    string ip = connectionFeature.RemoteIpAddress.ToString();
+                //}
+                //bool isLocal = HttpContext.Current.Request.IsLocal;
+                //var callingUrl = Request.Headers["Referer"].ToString();
+                //var isLocal = Url.IsLocalUrl(callingUrl);
+                if (Request.IsRequestFromLocalHost())
+                {
+                    if (login.Username.Equals(_config["LocalAdmin:username"]) &&
+                        login.Password.Equals(_config["LocalAdmin:password"]))
+                    {
+                        user = new OCloudUser(_config["LocalAdmin:username"]);
+                    }
+                }
+            }
+            //if (login.Username == "mario" && login.Password == "secret")
+            //{
+            //    user = new UserModel { Name = "Mario Rossi", Email = "mario.rossi@domain.com" };
+            //}
             return user;
         }
 
@@ -124,11 +156,11 @@ namespace OCloud.Controllers
             }
         }
 
-        private class UserModel
-        {
-            public string Name { get; set; }
-            public string Email { get; set; }
-            public DateTime Birthdate { get; set; }
-        }
+        //private class UserModel
+        //{
+        //    public string Name { get; set; }
+        //    public string Email { get; set; }
+        //    public DateTime Birthdate { get; set; }
+        //}
     }
 }
