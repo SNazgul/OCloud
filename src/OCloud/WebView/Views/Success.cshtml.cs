@@ -14,11 +14,11 @@ namespace OCloud.WebView.Views
         public void OnGet(string operation)
         {
             Operation = operation;
-            ViewData["Operation"] = operation;
+            //ViewData["Operation"] = operation;
         }
 
 
-        [BindProperty(SupportsGet = true)]
+        // [BindProperty(SupportsGet = true)] for case public void OnGet() 
         public string Operation { get; private set; }
     }
 }
