@@ -73,15 +73,6 @@ namespace OCloud.Controllers
 
             if (!isPwdCorrect.HasValue || !isPwdCorrect.Value)
             {
-                //bool isLocal = false;
-                //var connectionFeature = HttpContext.Features.Get<IHttpConnectionFeature>();
-                //if (connectionFeature != null)
-                //{
-                //    string ip = connectionFeature.RemoteIpAddress.ToString();
-                //}
-                //bool isLocal = HttpContext.Current.Request.IsLocal;
-                //var callingUrl = Request.Headers["Referer"].ToString();
-                //var isLocal = Url.IsLocalUrl(callingUrl);
                 if (Request.IsRequestFromLocalHost())
                 {
                     if (login.Username.Equals(_config["LocalAdmin:username"]) &&
@@ -91,28 +82,11 @@ namespace OCloud.Controllers
                     }
                 }
             }
-            //if (login.Username == "mario" && login.Password == "secret")
-            //{
-            //    user = new UserModel { Name = "Mario Rossi", Email = "mario.rossi@domain.com" };
-            //}
+
             return user;
         }
 
-        //public static bool IsLocal(this HttpRequest req)
-        //{
-        //    var connection = req.HttpContext.Connection;
-        //    if (connection.RemoteIpAddress. .IsSet())
-        //    {
-        //        //We have a remote address set up
-        //        return connection.LocalIpAddress. .IsSet()
-        //            //Is local is same as remote, then we are local
-        //            ? connection.RemoteIpAddress.Equals(connection.LocalIpAddress)
-        //            //else we are remote if the remote IP address is not a loopback address
-        //            : IPAddress.IsLoopback(connection.RemoteIpAddress);
-        //    }
 
-        //    return true;
-        //}
         [AllowAnonymous]
         [HttpPost]
         [ActionName("register")]
@@ -130,22 +104,6 @@ namespace OCloud.Controllers
         }
 
 
-        //[AllowAnonymous]
-        //[HttpGet]
-        //[ActionName("register")]
-        //public IActionResult Register()
-        //{
-        //    _logger.LogDebug($"D:CreateUser for ");
-        //    _logger.LogTrace($"T:CreateUser for ");
-        //    _logger.LogWarning($"W:CreateUser for ");
-
-        //    _logger.LogDebug($"CreateUser HttpContext.Connection = {HttpContext.Connection}");
-        //    if (HttpContext.Connection.RemoteIpAddress != null)
-        //        return new UnauthorizedResult();
-
-        //    return Ok();
-        //}
-
         public class LoginModel
         {
             public string Username { get; set; }
@@ -155,12 +113,5 @@ namespace OCloud.Controllers
                 return $"Username: {Username}, pwd: {Password?.Length}";
             }
         }
-
-        //private class UserModel
-        //{
-        //    public string Name { get; set; }
-        //    public string Email { get; set; }
-        //    public DateTime Birthdate { get; set; }
-        //}
     }
 }

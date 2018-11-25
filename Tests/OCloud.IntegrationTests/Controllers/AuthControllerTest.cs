@@ -28,24 +28,6 @@ namespace OCloud.IntegrationTests.Controllers
         {
             // Arrange
             var client = _factory.CreateClient();
-            
-            LoginModel loginModel = new LoginModel { Username = "LocalAdmin", Password = "pwd12345" };
-
-            // Act
-            var response = await client.PostAsJsonAsync("/api/auth/login", loginModel);
-
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var result = await response.Content.ReadAsStringAsync();
-            var resultDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
-            Assert.True(resultDict.ContainsKey("token"));
-        }
-
-        [Fact]
-        public async Task CreateToken_FromLocalHost_SuccessfullyLogin()
-        {
-            // Arrange
-            var client = _factory.CreateClient();
             LoginModel loginModel = new LoginModel { Username = _testConfig.Configuration["LocalAdmin:username"], Password = _testConfig.Configuration["LocalAdmin:password"] };
 
             // Act
@@ -57,5 +39,22 @@ namespace OCloud.IntegrationTests.Controllers
             var resultDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
             Assert.True(resultDict.ContainsKey("token"));
         }
+
+        //[Fact]
+        //public async Task CreateToken_FromLocalHost_SuccessfullyLogin()
+        //{
+        //    // Arrange
+        //    var client = _factory.CreateClient();
+        //    LoginModel loginModel = new LoginModel { Username = _testConfig.Configuration["LocalAdmin:username"], Password = _testConfig.Configuration["LocalAdmin:password"] };
+
+        //    // Act
+        //    var response = await client.PostAsJsonAsync("/api/auth/login", loginModel);
+
+        //    // Assert
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //    var result = await response.Content.ReadAsStringAsync();
+        //    var resultDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
+        //    Assert.True(resultDict.ContainsKey("token"));
+        //}
     }
 }

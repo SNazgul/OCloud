@@ -50,14 +50,15 @@ namespace OCloud.WebView.Views
                     new Claim(ClaimTypes.Name, user.UserName)
                 };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
 
-            return LocalRedirect("/Success?op=Login");
+            if (String.IsNullOrWhiteSpace(returnUrl))
+                return LocalRedirect("/Success?op=Login");
+            else
+                return LocalRedirect(Url.GetLocalUrl(returnUrl));
         }
 
 

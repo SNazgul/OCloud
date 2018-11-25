@@ -12,5 +12,17 @@
     <p>
         Sorry, but access denied 
     </p>
+    @if (!String.IsNullOrWhiteSpace(Model.Reason))
+    {
+    <p>
+        Reason:
+        <br>
+        <label asp-for="Reason">@Model.Reason</label>
+    </p>
+    <p>
+        
+    </p>
+    }
+
 </body>
 </html>

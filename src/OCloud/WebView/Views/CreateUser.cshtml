@@ -30,6 +30,16 @@
             <span asp-validation-for="LoginInfo.Password"></span>
         </div>
 
+        <div>
+            <label asp-for="LoginInfo.ConfirmPassword"></label>
+            <input asp-for="LoginInfo.ConfirmPassword" />
+            <span asp-validation-for="LoginInfo.ConfirmPassword"></span>
+        </div>
+
+        <div>
+            <input type="checkbox" asp-for="LoginInfo.LoginAfterCreation" />
+            <label asp-for="LoginInfo.LoginAfterCreation"></label>
+        </div>
 
         <input type="submit" value="Login" />
     </form>
